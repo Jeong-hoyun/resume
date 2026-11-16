@@ -1,0 +1,17 @@
+---
+import '../styles/ai-review.css';
+import { translator, type Language, type MessageKey } from '../lib/i18n';
+interface Props { lang: Language; }
+const { lang } = Astro.props;
+const t = translator(lang);
+const steps = ['GitLab MR', t('ai.flow.diff'), 'Claude', t('ai.flow.json'), t('ai.flow.comment')];
+---
+<section class="review-architecture" aria-labelledby={`review-flow-${lang}`}>
+  <h3 id={`review-flow-${lang}`}>{t('ai.architecture')}</h3>
+  <div class="review-pipeline">
+    <ol class="review-steps">{steps.map((step, index) => <li><span class="review-node-icon" aria-hidden="true">{['↳', '±', '✳', '{}', '↗'][index]}</span><span>{step}</span></li>)}</ol>
+    <div class="review-outputs"><span class="review-fallback">{t('ai.flow.fallback')}</span><span>Slack</span><span>Google Sheets</span></div>
+  </div>
+  <div class="review-decisions">{['input', 'guide', 'delivery'].map(id => <section><h4>{t(`ai.${id}.title` as MessageKey)}</h4><p>{t(`ai.${id}.body` as MessageKey)}</p></section>)}</div>
+  <p class="review-infrastructure">{t('ai.infrastructure')}</p>
+</section>

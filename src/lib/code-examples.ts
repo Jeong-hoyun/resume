@@ -1,6 +1,7 @@
 import performanceCode from '../../content/examples/prepare-entry.ts.txt?raw';
 import accessibilityCode from '../../content/examples/use-dialog-focus.tsx.txt?raw';
 import sdkCode from '../../content/examples/event-queue.ts.txt?raw';
+import reviewCode from '../../content/examples/publish-review.ts.txt?raw';
 import type { MessageKey } from './i18n';
 
 interface CodeExample {
@@ -18,6 +19,10 @@ export const codeExamples: Record<string, CodeExample> = {
   accessibility: {
     filename: 'use-dialog-focus.tsx', language: 'tsx', code: accessibilityCode,
     explanation: 'code.accessibility.explanation', limitation: 'code.accessibility.limitation',
+  },
+  'ai-review': {
+    filename: 'publish-review.ts', language: 'ts', code: reviewCode,
+    explanation: 'code.ai-review.explanation', limitation: 'code.ai-review.limitation',
   },
   sdk: {
     filename: 'event-queue.ts', language: 'ts', code: sdkCode,

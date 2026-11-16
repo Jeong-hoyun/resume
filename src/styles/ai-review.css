@@ -1,0 +1,38 @@
+.review-architecture { margin-top: 30px; min-width: 0; }
+.review-architecture > h3 { font-size: 14px; }
+.review-pipeline { margin-top: 15px; padding: 25px 20px 18px; background: #f0f3fb; border-radius: 8px; }
+.review-steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 15px; list-style: none; margin: 0; padding: 0; }
+.review-steps li { position: relative; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; color: var(--ink); font-size: 10px; }
+.review-steps li + li::before { content: '→'; position: absolute; left: -13px; top: 9px; color: #7a8caf; }
+.review-node-icon { display: grid; place-items: center; height: 36px; width: 36px; border: 1px solid #c9d4ed; border-radius: 8px; color: var(--blue); background: white; font-size: 17px; }
+.review-outputs { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-top: 14px; border-top: 1px solid #d6deef; font-size: 10px; color: var(--muted); }
+.review-outputs > span { border: 1px solid #d6deef; border-radius: 4px; padding: 3px 8px; background: #fff9; }
+.review-outputs .review-fallback { margin-right: auto; color: #526784; }
+.review-decisions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 23px; margin-top: 23px; }
+.review-decisions h4 { margin: 0 0 8px; font-size: 12px; font-weight: 600; }
+.review-decisions p { font-size: 12px; line-height: 1.9; color: var(--muted); }
+.review-infrastructure { margin-top: 18px; color: var(--muted); font-size: 11px; }
+.visual-ai-review { background: #e9eefb; }
+.review-sketch { width: 82%; max-width: 300px; }
+.review-sketch-header { display: flex; align-items: center; justify-content: space-between; font-size: 10px; color: #5b6e98; margin-bottom: 14px; }
+.review-sketch-branch { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.review-sketch-branch > span { text-align: center; background: #fff; border: 1px solid #cbd5ed; border-radius: 5px; padding: 8px 9px; font-size: 10px; flex: 1; color: #405d9d; }
+.review-sketch-branch > i { width: 16px; height: 1px; background: #a5b7dd; flex-shrink: 0; }
+.review-sketch-comment { width: 82%; margin: 16px 0 0 auto; padding: 12px; background: #ffffffb0; border-left: 2px solid #7b97d6; border-radius: 0 5px 5px 0; }
+.review-sketch-comment span { display: block; height: 4px; background: #bfcee9; border-radius: 2px; width: 85%; margin: 6px 0; }
+.review-sketch-comment span:nth-child(2) { width: 60%; }
+@media (max-width: 760px) {
+  .review-pipeline { padding: 20px 12px 15px; }
+  .review-steps { gap: 9px; }
+  .review-steps li { font-size: 9px; }
+  .review-steps li + li::before { left: -9px; }
+  .review-node-icon { width: 30px; height: 30px; font-size: 15px; }
+  .review-decisions { grid-template-columns: 1fr; gap: 18px; }
+  .review-infrastructure { font-size: 10px; }
+}
+@media print {
+  .review-architecture { break-inside: avoid; }
+  .review-pipeline { background: white; border: 1px solid var(--line); padding: 15px; }
+  .review-decisions { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .review-decisions p, .review-infrastructure { font-size: 8pt; }
+}

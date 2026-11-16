@@ -128,3 +128,39 @@ test('a failed head event remains ahead of later events and can be retried', asy
   await sauceLink('event', 'sign_up');
   assert.deepEqual(attempts, ['page_view', 'page_view', 'purchase', 'sign_up']);
 });
+
+const { publishReview } = await loadExample('publish-review.ts');
+const issue = { path: 'src/player.ts', line: 12, message: 'Check the empty list.' };
+test('review stays inline when registration succeeds', async () => {
+  const calls = [];
+  const result = await publishReview({
+    inline: async value => { calls.push(value); },
+    general: async () => assert.fail('No fallback is needed'),
+    reportError: () => assert.fail('No error is expected'),
+  }, issue);
+  assert.equal(result, 'inline');
+  assert.deepEqual(calls, [issue]);
+});
+
+test('failed inline review falls back once with file and line context', async () => {
+  const comments = [], errors = [];
+  const result = await publishReview({
+    inline: async () => { throw new Error('position mismatch'); },
+    general: async text => { comments.push(text); },
+    reportError: (stage, error) => errors.push([stage, error.message]),
+  }, issue);
+  assert.equal(result, 'general');
+  assert.deepEqual(comments, ['src/player.ts:12\nCheck the empty list.']);
+  assert.deepEqual(errors, [['inline', 'position mismatch']]);
+});
+
+test('both failed review channels return a distinct failure for follow-up', async () => {
+  const errors = [];
+  const result = await publishReview({
+    inline: async () => { throw new Error('inline failed'); },
+    general: async () => { throw new Error('general failed'); },
+    reportError: (stage, error) => errors.push([stage, error.message]),
+  }, issue);
+  assert.equal(result, 'failed');
+  assert.deepEqual(errors, [['inline', 'inline failed'], ['general', 'general failed']]);
+});

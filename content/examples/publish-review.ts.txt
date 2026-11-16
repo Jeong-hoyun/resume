@@ -1,0 +1,23 @@
+type Issue = { path: string; line: number; message: string };
+type ReviewApi = {
+  inline: (issue: Issue) => Promise<void>;
+  general: (message: string) => Promise<void>;
+  reportError: (stage: 'inline' | 'general', error: unknown) => void;
+};
+
+export async function publishReview(api: ReviewApi, issue: Issue) {
+  try {
+    await api.inline(issue);
+    return 'inline' as const;
+  } catch (error) {
+    api.reportError('inline', error);
+  }
+
+  try {
+    await api.general(`${issue.path}:${issue.line}\n${issue.message}`);
+    return 'general' as const;
+  } catch (error) {
+    api.reportError('general', error);
+    return 'failed' as const;
+  }
+}
