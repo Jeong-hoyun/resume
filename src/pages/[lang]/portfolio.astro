@@ -2,7 +2,7 @@
 import Document from '../../layouts/Document.astro';
 import ProjectDetail from '../../components/ProjectDetail.astro';
 import ProjectVisual from '../../components/ProjectVisual.astro';
-import { translator, type Language, type MessageKey } from '../../lib/i18n';
+import { translator, heading, type Language, type MessageKey } from '../../lib/i18n';
 import { projects } from '../../../content/projects.mjs';
 export function getStaticPaths() { return ['ko', 'ja'].map(lang => ({ params: { lang } })); }
 const lang = Astro.params.lang as Language;
@@ -10,7 +10,7 @@ const t = translator(lang);
 const selected = ['performance', 'accessibility', 'sdk', 'ai-review', 'paneo'].map(id => projects.find(p => p.id === id)!);
 ---
 <Document lang={lang} page="portfolio">
-  <section class="page-intro portfolio-intro"><h1>{t('portfolio.title')}</h1><p>{t('portfolio.intro')}</p></section>
+  <section class="page-intro portfolio-intro"><h1>{heading(lang, 'portfolio.title')}</h1><p>{t('portfolio.intro')}</p></section>
   <div class="portfolio-filter" role="group" aria-label={t('section.selected')}>{(['all', 'work', 'personal'] as const).map((type, i) => <button type="button" data-filter={type} aria-pressed={i === 0 ? 'true' : 'false'}>{t(`ui.${type}`)}</button>)}</div>
   <div class="project-grid">{selected.map(p => <a href={`#${p.id}`} class="project-tile" data-category={p.company ? 'work' : 'personal'}><ProjectVisual type={p.id} lang={lang} /><div class="tile-description"><span>{p.company ? 'Mobidoo' : t('ui.personal')}</span><h2>{t(`project.${p.id}.title` as MessageKey)}</h2><p>{t(`project.${p.id}.summary` as MessageKey)}</p><div class="tile-bottom"><span>{p.tags.slice(0, 2).join(' / ')}</span><b>{t('ui.read')} ↗</b></div></div></a>)}</div>
   <div class="portfolio-cases">{selected.map(p => <ProjectDetail lang={lang} project={p} portfolio />)}</div>
