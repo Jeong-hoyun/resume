@@ -12,7 +12,7 @@ export const companies = [
 ];
 export const projects = [
   { id: 'accessibility', company: 'mobidoo', start: '2026-06', end: '2026-07', tags: ['Accessibility', 'React', 'E2E'], featured: true },
-  { id: 'ai-review', company: 'mobidoo', start: '2026-03', end: '2026-04', tags: ['n8n', 'Claude API', 'GitLab CI'], link: profile.blog },
+  { id: 'ai-review', company: 'mobidoo', start: '2026-03', end: '2026-04', tags: ['n8n', 'Claude API', 'GitLab Webhook'], featured: true, link: profile.blog },
   { id: 'performance', company: 'mobidoo', start: '2025-12', end: '2026-04', tags: ['Vite', 'Playwright', 'Web Performance'], featured: true },
   { id: 'sdk', company: 'mobidoo', start: '2025-09', end: '2026-01', tags: ['TypeScript', 'Vitest', 'GitLab CI'], featured: true },
   { id: 'admin', company: 'mobidoo', start: '2024-07', end: '2025-06', tags: ['Vue', 'React', 'Next.js'] },
