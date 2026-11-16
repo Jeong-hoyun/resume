@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import { translator, path, type Language } from '../lib/i18n';
+interface Props { lang: Language; page: 'resume' | 'career' | 'portfolio'; }
+const { lang, page } = Astro.props;
+const t = translator(lang);
+const title = `${t(`nav.${page}`)} | ${t('name')}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={t('profile.summary')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={t('profile.summary')} />
+    <meta property="og:type" content="profile" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {Astro.site && ['ko', 'ja'].map(l => <link rel="alternate" hreflang={l} href={new URL(path(l as Language, page), Astro.site)} />)}
+  </head>
+  <body id="top">
+    <a class="skip" href="#main">{t('ui.skip')}</a>
+    <div class="site-shell">
+      <aside class="sidebar">
+        <a class="identity" href={path(lang, 'resume')} aria-label={t('name')}><span class="monogram" aria-hidden="true">h.</span><span><strong>{t('name')}</strong><small>Hoyun Jung</small></span></a>
+        <p class="side-role">{t('role')}</p>
+        <nav class="document-nav" aria-label={lang === 'ko' ? '문서' : 'ドキュメント'}>
+          {(['resume', 'career', 'portfolio'] as const).map(p => <a href={path(lang, p)} aria-current={page === p ? 'page' : undefined}><span>{t(`nav.${p}`)}</span><span aria-hidden="true">{p === 'resume' ? '↗' : p === 'career' ? '≡' : '◫'}</span></a>)}
+        </nav>
+        <div class="side-bottom">
+          <nav class="language-switch" aria-label={lang === 'ko' ? '언어 선택' : '言語選択'}><a href={path('ko', page)} lang="ko" aria-current={lang === 'ko' ? 'true' : undefined}>한국어</a><a href={path('ja', page)} lang="ja" aria-current={lang === 'ja' ? 'true' : undefined}>日本語</a></nav>
+          <button class="print-button" data-print>{t('ui.print')} <span aria-hidden="true">⎙</span></button>
+          <a class="side-github" href="https://github.com/Jeong-hoyun" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </aside>
+      <div class="main-column">
+        <header class="topbar"><span>{t(`nav.${page}`)}</span><span>Hoyun Jung <span class="topbar-dot" aria-hidden="true"></span> Web frontend</span></header>
+        <main id="main"><slot /></main>
+        <footer><span>{t('name')} <span class="footer-slash">/</span> {t('role')}</span><a href="#top">{t('ui.top')} ↑</a></footer>
+      </div>
+    </div>
+    <script>document.querySelector('[data-print]')?.addEventListener('click', () => window.print());</script>
+  </body>
+</html>

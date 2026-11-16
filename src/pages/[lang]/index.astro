@@ -1,0 +1,7 @@
+---
+import { path, type Language } from '../../lib/i18n';
+export function getStaticPaths() { return ['ko', 'ja'].map(lang => ({ params: { lang } })); }
+const lang = Astro.params.lang as Language;
+const target = path(lang, 'resume');
+---
+<!doctype html><html lang={lang}><head><meta charset="utf-8" /><meta http-equiv="refresh" content={`0;url=${target}`} /><title>Hoyun Jung</title></head><body><a href={target}>Hoyun Jung</a></body></html>

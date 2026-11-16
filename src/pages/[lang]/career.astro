@@ -1,0 +1,13 @@
+---
+import Document from '../../layouts/Document.astro';
+import ProjectDetail from '../../components/ProjectDetail.astro';
+import { translator, date, type Language, type MessageKey } from '../../lib/i18n';
+import { companies, projects } from '../../../content/projects.mjs';
+export function getStaticPaths() { return ['ko', 'ja'].map(lang => ({ params: { lang } })); }
+const lang = Astro.params.lang as Language;
+const t = translator(lang);
+---
+<Document lang={lang} page="career">
+  <section class="page-intro"><h1>{t('career.title')}</h1><p>{t('career.intro')}</p></section>
+  {companies.map(company => <section class="company-section"><header class="company-heading"><div><h2>{t(`company.${company.id}` as MessageKey)}</h2><p>{t(`company.${company.id}.role` as MessageKey)}</p></div><span>{date(company.start)} — {date(company.end)}</span></header>{projects.filter(p => p.company === company.id).map(p => <ProjectDetail lang={lang} project={p} />)}</section>)}
+</Document>

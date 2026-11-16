@@ -1,0 +1,22 @@
+---
+import { translator, date, type Language, type MessageKey } from '../lib/i18n';
+import { performance, facts } from '../../content/projects.mjs';
+interface Props { lang: Language; project: { id: string; start?: string; end?: string; tags: string[]; link?: string }; portfolio?: boolean; }
+const { lang, project: p, portfolio = false } = Astro.props;
+const t = translator(lang);
+const text = (suffix: string) => t(`project.${p.id}.${suffix}` as MessageKey);
+---
+<article class:list={['project-detail', { 'portfolio-detail': portfolio }]} id={p.id}>
+  <header class="project-heading"><div><p class="project-date">{p.start && p.end ? `${date(p.start)} — ${date(p.end)}` : t('ui.personal')}</p><h2>{text('title')}</h2></div><div class="tags">{p.tags.map(tag => <span>{tag}</span>)}</div></header>
+  {portfolio && <p class="project-lead">{text('summary')}</p>}
+  <div class="detail-grid">
+    {(['problem', 'implementation', 'result', ...(portfolio ? ['reflection'] : [])] as const).map(section => <section><h3>{t(`ui.${section}` as MessageKey)}</h3><p>{text(section)}</p>{section === 'result' && p.id === 'engagekit' && <p class="result-line">{t('engagekit.metric', { percent: facts.projects.engagekit.averageWatchTimeIncreasePercent })}</p>}</section>)}
+  </div>
+  {portfolio && p.id === 'performance' && <div class="measurement">
+    <div class="flow" aria-label={lang === 'ko' ? '초기 표시 처리 순서' : '初期表示の処理順序'}>{[1, 2, 3, 4].map((n, i) => <><span>{t(`performance.flow${n}` as MessageKey)}</span>{i < 3 && <b aria-hidden="true">→</b>}</>)}</div>
+    <div class="metrics">{Object.entries(performance.improvements).map(([key, value]) => <div><strong>−{value}<small>%</small></strong><span>{key === 'transfer' ? t('performance.transfer') : key.toUpperCase()}</span></div>)}</div>
+    <p class="measurement-note">{t('performance.note')}</p>
+    <div class="table-scroll"><table><caption>{t('performance.beforeafter')}</caption><thead><tr><th scope="col">{t('performance.type')}</th><th scope="col">FCP (ms)</th><th scope="col">LCP (ms)</th><th scope="col">TTP (ms)</th><th scope="col">KB</th></tr></thead><tbody>{performance.rows.map(row => <tr><th scope="row">{row.type}</th>{[row.fcp, row.lcp, row.ttp, row.transfer].map(pair => <td>{pair[0]} <span>→</span> <strong>{pair[1]}</strong></td>)}</tr>)}</tbody></table></div>
+  </div>}
+  {p.link && <a class="text-link" href={p.link} target="_blank" rel="noreferrer">{t('ui.blog')} ↗</a>}
+</article>

@@ -1,0 +1,21 @@
+{
+  "name": "hoyun-resume",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/i18n.mjs check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "i18n:check": "node scripts/i18n.mjs check",
+    "i18n:push": "node --env-file-if-exists=.env scripts/i18n.mjs push",
+    "i18n:pull": "node --env-file-if-exists=.env scripts/i18n.mjs pull",
+    "i18n:sync": "npm run i18n:push && npm run i18n:pull",
+    "build:sync": "npm run i18n:sync && npm run build",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "dependencies": { "astro": "^6.0.0" },
+  "devDependencies": { "@astrojs/check": "^0.9.4", "typescript": "^5.9.3" }
+}
