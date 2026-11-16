@@ -7,7 +7,7 @@ import { projects } from '../../../content/projects.mjs';
 export function getStaticPaths() { return ['ko', 'ja'].map(lang => ({ params: { lang } })); }
 const lang = Astro.params.lang as Language;
 const t = translator(lang);
-const selected = ['performance', 'accessibility', 'sdk', 'paneo'].map(id => projects.find(p => p.id === id)!);
+const selected = ['performance', 'accessibility', 'sdk', 'ai-review', 'paneo'].map(id => projects.find(p => p.id === id)!);
 ---
 <Document lang={lang} page="portfolio">
   <section class="page-intro portfolio-intro"><h1>{t('portfolio.title')}</h1><p>{t('portfolio.intro')}</p></section>

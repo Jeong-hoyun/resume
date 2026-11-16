@@ -1,10 +1,12 @@
 ---
 interface Props { type: string; lang: 'ko' | 'ja'; }
+import '../styles/ai-review.css';
 const { type, lang } = Astro.props;
 ---
 <div class:list={['project-visual', `visual-${type}`]} aria-hidden="true">
   {type === 'performance' && <div class="player-sketch"><div class="player-top"><span>Live player</span><i></i><i></i><i></i></div><div class="player-scene"><div class="scene-orbit"></div><div class="play-disc">▶</div><span class="live-badge">Live</span></div><div class="player-progress"><span></span></div><div class="load-comparison"><span>FCP</span><div><i></i><b></b></div><strong>−34%</strong></div></div>}
   {type === 'accessibility' && <div class="focus-sketch"><div class="focus-title">{lang === 'ko' ? '모든 조작에, 다음 목적지.' : 'すべての操作に、次の行き先。'}</div><div class="focus-controls"><span>⇥</span><span class="focused">▶<small>Focus</small></span><span>↗</span></div><div class="focus-path"><i></i><span></span><i></i><span></span><i></i></div><p>Keyboard / VoiceOver / TalkBack</p></div>}
   {type === 'sdk' && <div class="sdk-sketch"><div class="sdk-sources"><span>Cafe24</span><span>Godomall</span><span>Imweb</span></div><div class="sdk-lines"></div><strong>Web SDK</strong><div class="sdk-events"><span>view</span><span>signup</span><span>purchase</span></div></div>}
+  {type === 'ai-review' && <div class="review-sketch"><div class="review-sketch-header"><span>Merge request</span><span>n8n workflow</span></div><div class="review-sketch-branch"><span>GitLab</span><i></i><span>Claude</span><i></i><span>Review</span></div><div class="review-sketch-comment"><span></span><span></span><span></span></div></div>}
   {type === 'paneo' && <div class="paneo-sketch"><div class="phone"><div class="phone-header">Paneo <span>⌕</span></div><div class="book-grid">{[1, 2, 3, 4, 5, 6].map(n => <div><span>{['月', '森', '波', '旅', '空', '雨'][n - 1]}</span><i></i></div>)}</div><div class="phone-bottom">▦ <span>▱</span></div></div><div class="paneo-caption">Local files.<br />Your library.</div></div>}
 </div>
