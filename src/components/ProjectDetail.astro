@@ -1,6 +1,5 @@
 ---
 import { translator, date, type Language, type MessageKey } from '../lib/i18n';
-import AIReviewArchitecture from './AIReviewArchitecture.astro';
 import CodeExample from './CodeExample.astro';
 import { codeExamples } from '../lib/code-examples';
 import { performance, facts } from '../../content/projects.mjs';
@@ -21,7 +20,6 @@ const text = (suffix: string) => t(`project.${p.id}.${suffix}` as MessageKey);
     <p class="measurement-note">{t('performance.note')}</p>
     <div class="table-scroll"><table><caption>{t('performance.beforeafter')}</caption><thead><tr><th scope="col">{t('performance.type')}</th><th scope="col">FCP (ms)</th><th scope="col">LCP (ms)</th><th scope="col">TTP (ms)</th><th scope="col">KB</th></tr></thead><tbody>{performance.rows.map(row => <tr><th scope="row">{row.type}</th>{[row.fcp, row.lcp, row.ttp, row.transfer].map(pair => <td>{pair[0]} <span>→</span> <strong>{pair[1]}</strong></td>)}</tr>)}</tbody></table></div>
   </div>}
-  {portfolio && p.id === 'ai-review' && <AIReviewArchitecture lang={lang} />}
   {portfolio && codeExamples[p.id] && <CodeExample lang={lang} example={codeExamples[p.id]} />}
   {p.link && <a class="text-link" href={p.link} target="_blank" rel="noreferrer">{t('ui.blog')} ↗</a>}
 </article>

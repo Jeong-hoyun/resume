@@ -1,0 +1,19 @@
+import { useEffect, type RefObject } from 'react';
+
+export function useDialogFocus(
+  isOpen: boolean,
+  initialFocus: RefObject<HTMLElement | null>,
+) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previous = document.activeElement;
+    initialFocus.current?.focus({ preventScroll: true });
+
+    return () => {
+      if (previous instanceof HTMLElement && previous.isConnected) {
+        previous.focus({ preventScroll: true });
+      }
+    };
+  }, [isOpen, initialFocus]);
+}

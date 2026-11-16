@@ -1,0 +1,36 @@
+type EventName = 'page_view' | 'view_item' | 'sign_up' | 'purchase';
+type EventCommand = ['event', EventName, Record<string, unknown>?];
+type Command = ['start'] | EventCommand;
+
+export function createSauceLink(
+  send: (...command: EventCommand) => Promise<void>,
+  reportError: (error: unknown) => void,
+) {
+  const queue: EventCommand[] = [];
+  let ready = false;
+  let draining = false;
+
+  async function flush() {
+    if (!ready || draining) return;
+    draining = true;
+    try {
+      while (queue.length > 0) {
+        await send(...queue[0]!);
+        queue.shift();
+      }
+    } catch (error) {
+      reportError(error);
+    } finally {
+      draining = false;
+    }
+  }
+
+  return function sauceLink(...command: Command) {
+    if (command[0] === 'start') {
+      ready = true;
+    } else {
+      queue.push(command);
+    }
+    return flush();
+  };
+}

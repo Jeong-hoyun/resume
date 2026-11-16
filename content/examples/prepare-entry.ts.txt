@@ -1,0 +1,32 @@
+type Broadcast = { posterUrl: string };
+type Player = { mount: (info: Broadcast) => void };
+type Dependencies = {
+  fetchInfo: () => Promise<Broadcast>;
+  showPoster: (url: string) => void;
+  loadPlayer: () => Promise<Player>;
+  reportError: (error: unknown) => void;
+};
+
+export async function prepareEntry(deps: Dependencies) {
+  try {
+    const infoTask = Promise.resolve()
+      .then(() => deps.fetchInfo())
+      .then((info) => {
+        deps.showPoster(info.posterUrl);
+        return info;
+      });
+
+    const [info, player] = await Promise.allSettled([
+      infoTask,
+      Promise.resolve().then(() => deps.loadPlayer()),
+    ]);
+
+    if (info.status === 'rejected') deps.reportError(info.reason);
+    if (player.status === 'rejected') deps.reportError(player.reason);
+    if (info.status !== 'fulfilled' || player.status !== 'fulfilled') return;
+
+    player.value.mount(info.value);
+  } catch (error) {
+    deps.reportError(error);
+  }
+}
