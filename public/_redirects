@@ -1,0 +1,2 @@
+# Netlify: send the home URL to the Korean resume, including manual dist uploads.
+/ /ko/resume/ 302!

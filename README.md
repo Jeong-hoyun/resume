@@ -136,4 +136,14 @@ SITE_URL=https://jeong-hoyun.github.io
 BASE_PATH=/resume
 ```
 
-소스 GitHub 저장소 연결과 웹 호스팅 배포는 별개입니다. 현재 배포 워크플로, 로그인, 비공개 문서·권한 관리는 포함하지 않았습니다.
+### Netlify
+
+프로젝트 루트의 `netlify.toml`에 빌드 명령 `npm run build`, 게시 폴더 `dist`, Node.js 22, `BASE_PATH=/`를 지정했습니다. `public/_redirects`는 빌드 시 `dist/_redirects`로 복사되어 홈 `/`을 `/ko/resume/`로 연결합니다.
+
+- **GitHub 연결 배포:** 저장소의 프로젝트 루트를 Base directory로 사용합니다. 하위 폴더에 프로젝트를 넣지 않았다면 Base directory는 비워둡니다. Build command는 `npm run build`, Publish directory는 `dist`입니다. 설정을 커밋·푸시한 뒤 다시 배포합니다.
+- **수동 업로드:** 로컬에서 `BASE_PATH=/ npm run build`를 실행한 뒤 생성된 **`dist` 폴더**를 업로드합니다. 소스 프로젝트 전체나 `public` 폴더를 업로드하면 안 됩니다.
+- Netlify의 배포 파일 목록에서 `index.html`, `_redirects`, `ko/resume/index.html`이 게시 루트 기준으로 존재하는지 확인합니다. `dist/index.html`이라는 하위 경로로만 보이면 게시 폴더가 한 단계 위에 잡힌 것입니다.
+- Netlify 환경변수에 GitHub Pages용 `BASE_PATH=/resume`이 남아 있다면 `/`로 변경합니다.
+- 배포 도메인을 `SITE_URL`로 설정하면 해당 주소의 canonical·alternate 링크가 생성됩니다. 로그인이나 시트 인증은 일반 빌드에 필요하지 않습니다.
+
+소스 GitHub 저장소 연결과 웹 호스팅 배포는 별개입니다. 로그인, 비공개 문서·권한 관리는 포함하지 않았습니다.
