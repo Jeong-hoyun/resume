@@ -33,7 +33,7 @@ npm run preview    # 빌드 결과 미리보기
 
 ## 아키텍처
 
-Astro 6와 TypeScript로 구현한 정적 사이트입니다. Astro가 Vite를 통해 빌드하며, 공개 문서는 빌드 시 HTML로 생성합니다. React 런타임이나 애플리케이션 서버는 사용하지 않습니다. 브라우저 JavaScript는 포트폴리오 필터와 인쇄 버튼에만 사용합니다.
+Astro 6와 TypeScript로 구현한 정적 사이트입니다. Astro가 Vite를 통해 빌드하며, 공개 문서는 빌드 시 HTML로 생성합니다. React 런타임이나 애플리케이션 서버는 사용하지 않습니다. 브라우저 JavaScript는 포트폴리오 필터, 인쇄 버튼, 예제 코드 복사에 사용합니다.
 
 ```mermaid
 flowchart TD
@@ -111,6 +111,19 @@ docs/                          시트 운영·디자인 가이드
 현재 시트와 최초 동기화를 완료했습니다. 공개 번역 스냅샷을 사용하므로 실행·빌드 시에는 시트 인증이 필요하지 않습니다. 추가 동기화에는 Google Sheets 연결 도구 또는 서비스 계정 인증을 사용합니다. 현재 콘텐츠는 제공된 세 PDF를 웹에 맞게 요약·정리한 초안이며, 원본 PDF 자체를 수정하거나 공개 폴더에 복사하지 않았습니다. 전화번호·이메일·생년은 기본 공개 페이지에 포함하지 않았습니다. 연락 경로는 GitHub와 제공된 기술 블로그를 사용합니다.
 
 [Google Sheets 설정과 동기화](docs/google-sheets.md) · [디자인 방향](docs/design.md) · [확정 사실](content/README.md)
+
+## 포트폴리오 예제 코드
+
+성능 개선·접근성·Web SDK·AI 코드 리뷰 상세에 읽기 전용 코드 뷰어를 제공합니다. 구문 강조는 Astro의 `Code` 컴포넌트가 빌드 시 생성하고, 브라우저에서는 복사 기능만 실행합니다. React·Monaco 같은 에디터 런타임은 추가하지 않습니다.
+
+- 예제 원문: `content/examples/*.txt` — TypeScript/TSX 코드를 텍스트로 보관하며 앱에서 실행하지 않습니다.
+- 사례 연결: `src/lib/code-examples.ts`
+- 코드 뷰어: `src/components/CodeExample.astro`
+- 한일 설명·주의점: Google Sheets의 `code.*` 문장 키
+
+코드는 실무 아이디어를 설명하기 위해 새로 작성한 예제이며 실제 회사 소스가 아닙니다. 성능 예제는 `Promise.allSettled`와 `try/catch`로 실패를 분리해 처리하고, SDK 예제는 GA의 명령 큐를 참고한 기본 이벤트 FIFO 처리를 보여줍니다. 각 예제에 생략한 오류 처리·접근성·SDK 처리 범위를 표시합니다.
+
+큐 패턴 참고: [Google 공식 dataLayer 문서](https://developers.google.com/tag-platform/tag-manager/datalayer). 이 사이트에 GA 추적 스크립트를 추가한 것은 아닙니다. 복사에는 브라우저 Clipboard API가 필요하며, 사용할 수 없으면 직접 선택해 복사하도록 안내합니다. PDF 인쇄에서는 복사 버튼을 숨기고 코드를 줄바꿈합니다.
 
 ## 배포
 
