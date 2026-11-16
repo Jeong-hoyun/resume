@@ -1,7 +1,7 @@
 # Google Sheets로 표현 관리하기
 
 사이트 구조·신규 키는 코드에서 관리하고, 기존 문장 수정은 시트에서 합니다.
-현재 시트에 136개 키를 등록했고, 연결된 Google Sheets 도구로 읽어온 스냅샷을 사이트에 반영했습니다.
+현재 시트에 164개 키를 등록했고, 연결된 Google Sheets 도구로 읽어온 스냅샷을 사이트에 반영했습니다.
 
 사용 중인 시트: https://docs.google.com/spreadsheets/d/1NrrRdrbq_PPrD55Fb55vl_BHp5SMMOU3YIgn9XZn_Fw/edit
 
