@@ -57,6 +57,7 @@ const implementationDetail = portfolio && Object.hasOwn(messages, detailKey)
       <figcaption>
         <strong>{lang === 'ko' ? 'macOS VoiceOver로 상품 버튼 탐색 확인' : 'macOSのVoiceOverで商品ボタンの読み上げを確認'}</strong>
         <p>{lang === 'ko' ? '세 번째 상품 버튼으로 이동하자 VoiceOver가 상품명, 상품 페이지가 열린다는 안내, 버튼 역할을 읽었습니다. 화살표만 표시되는 컨트롤에서도 이동 대상과 실행 결과를 파악할 수 있음을 확인했습니다.' : '3件目の商品ボタンに移動すると、VoiceOverが商品名、商品ページが開くこと、ボタンの役割を読み上げました。画面上では矢印で示される操作でも、移動先と実行結果が伝わることを確認しました。'}</p>
+        <a class="text-link evidence-link" href={voiceoverScreenshot.src}>{lang === 'ko' ? 'VoiceOver 캡처 크게 보기' : 'VoiceOverの画像を拡大'}</a>
       </figcaption>
     </figure>
     <a class="text-link" href="https://player.sauceclip.com/player?partnerUniqueId=shinsegaelive&clipId=75239&curationId=66">{lang === 'ko' ? '신세계라이브쇼핑 검증 클립 열기' : '新世界ライブショッピングの検証クリップを開く'}</a>
@@ -126,6 +127,11 @@ const implementationDetail = portfolio && Object.hasOwn(messages, detailKey)
   .voiceover-evidence figcaption {
     margin-top: 8px;
   }
+  .evidence-link {
+    margin-top: 4px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
   .accessibility-check {
     margin-top: 24px;
     padding: 4px 16px;
@@ -185,5 +191,11 @@ const implementationDetail = portfolio && Object.hasOwn(messages, detailKey)
     margin: 0;
     padding: 10px;
     font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    .snippet-code :global(pre) {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
   }
 </style>
