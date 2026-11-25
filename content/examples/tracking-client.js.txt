@@ -1,0 +1,20 @@
+export function createTrackingClient(loadTracker, reportError) {
+  const tracker = loadTracker();
+  let pending = Promise.resolve();
+
+  return {
+    track(name, properties) {
+      pending = pending
+        .then(async () => {
+          const client = await tracker;
+          await client.track(name, properties);
+        })
+        .catch(reportError);
+      return pending;
+    },
+  };
+}
+
+// loadDemoTracker resolves when the demo tracker is ready.
+const client = createTrackingClient(loadDemoTracker, console.error);
+client.track('product_viewed', { productId: 'demo-001' });

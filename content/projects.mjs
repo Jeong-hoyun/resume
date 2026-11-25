@@ -26,7 +26,7 @@ export const projects = [
   { id: 'paneo', company: null, tags: ['Kotlin', 'Jetpack Compose', 'GitHub Actions'], featured: true },
 ];
 
-// Internal measurement: Galaxy S20 Ultra, 3 runs/type, median; mean of type improvement rates.
+// Internal measurement: Playwright Galaxy S20 Ultra emulation, 3 runs/type, median; mean of type improvement rates.
 export const performance = {
   improvements: { fcp: 34, lcp: 31, ttp: 24, transfer: 25 },
   rows: [
