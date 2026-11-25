@@ -1,5 +1,8 @@
 ---
 import { translator, date, type Language, type MessageKey } from '../lib/i18n';
+import { Image } from 'astro:assets';
+import voiceoverScreenshot from '../assets/sauceclip-voiceover.png';
+import liveScreenshot from '../../saucelive-yanolja-current.png';
 import AIReviewArchitecture from './AIReviewArchitecture.astro';
 import CodeExample from './CodeExample.astro';
 import { codeExamples } from '../lib/code-examples';
@@ -20,8 +23,96 @@ const text = (suffix: string) => t(`project.${p.id}.${suffix}` as MessageKey);
     <div class="metrics">{Object.entries(performance.improvements).map(([key, value]) => <div><strong>−{value}<small>%</small></strong><span>{key === 'transfer' ? t('performance.transfer') : key.toUpperCase()}</span></div>)}</div>
     <p class="measurement-note">{t('performance.note')}</p>
     <div class="table-scroll"><table><caption>{t('performance.beforeafter')}</caption><thead><tr><th scope="col">{t('performance.type')}</th><th scope="col">FCP (ms)</th><th scope="col">LCP (ms)</th><th scope="col">TTP (ms)</th><th scope="col">KB</th></tr></thead><tbody>{performance.rows.map(row => <tr><th scope="row">{row.type}</th>{[row.fcp, row.lcp, row.ttp, row.transfer].map(pair => <td>{pair[0]} <span>→</span> <strong>{pair[1]}</strong></td>)}</tr>)}</tbody></table></div>
+    <figure class="evidence live-evidence">
+      <Image src={liveScreenshot} alt={lang === 'ko' ? '야놀자 방송의 영상과 상품·채팅 UI' : 'ヤノルジャの配信映像と商品・チャットUI'} />
+      <figcaption>
+        <strong>{lang === 'ko' ? '개선 대상이었던 운영 화면' : '改善対象となった本番画面'}</strong>
+        <p>{lang === 'ko' ? '야놀자 방송의 재생 화면입니다. 초기 진입에서는 재생 모듈이 준비되는 동안 포스터를 먼저 표시하도록 설계했습니다. 개선 폭은 위 표의 FCP·LCP·TTP에서 확인할 수 있습니다.' : 'ヤノルジャの本番配信の再生画面です。初回表示では、再生モジュールの準備中にポスター画像を先に表示する設計にしました。改善幅は上の表のFCP・LCP・TTPで確認できます。'}</p>
+      </figcaption>
+    </figure>
   </div>}
+  {portfolio && p.id === 'accessibility' && <section class="accessibility-check" aria-labelledby="sauceclip-check-heading">
+    <h3 id="sauceclip-check-heading">{lang === 'ko' ? '운영 클립에서 확인한 키보드 탐색' : '公開クリップで確認したキーボード操作'}</h3>
+    <ol>
+      <li><kbd>Enter</kbd> {lang === 'ko' ? '상품 더보기에서 상품 3개가 담긴 패널을 엽니다.' : '商品一覧ボタンから、3件の商品を表示するパネルを開きます。'}</li>
+      <li>{lang === 'ko' ? '패널이 열리면 첫 번째 상품으로 포커스가 이동합니다.' : 'パネルが開くと、最初の商品にフォーカスが移ります。'}</li>
+      <li><kbd>Esc</kbd> {lang === 'ko' ? '패널을 닫으면 상품 더보기 버튼으로 포커스가 돌아옵니다.' : 'パネルを閉じると、商品一覧ボタンにフォーカスが戻ります。'}</li>
+    </ol>
+    <figure class="evidence voiceover-evidence">
+      <div class="voiceover-crop">
+        <Image src={voiceoverScreenshot} alt={lang === 'ko' ? '세 번째 상품 버튼의 VoiceOver 포커스 테두리와 낭독 자막' : '3件目の商品ボタンを囲むVoiceOverカーソルと読み上げ字幕'} />
+      </div>
+      <figcaption>
+        <strong>{lang === 'ko' ? 'macOS VoiceOver로 상품 버튼 탐색 확인' : 'macOSのVoiceOverで商品ボタンの読み上げを確認'}</strong>
+        <p>{lang === 'ko' ? '세 번째 상품 버튼으로 이동하자 VoiceOver가 상품명, 상품 페이지가 열린다는 안내, 버튼 역할을 읽었습니다. 화살표만 표시되는 컨트롤에서도 이동 대상과 실행 결과를 파악할 수 있음을 확인했습니다.' : '3件目の商品ボタンに移動すると、VoiceOverが商品名、商品ページが開くこと、ボタンの役割を読み上げました。画面上では矢印で示される操作でも、移動先と実行結果が伝わることを確認しました。'}</p>
+      </figcaption>
+    </figure>
+    <a class="text-link" href="https://player.sauceclip.com/player?partnerUniqueId=shinsegaelive&clipId=75239&curationId=66">{lang === 'ko' ? '신세계라이브쇼핑 검증 클립 열기' : '新世界ライブショッピングの検証クリップを開く'}</a>
+  </section>}
   {portfolio && p.id === 'ai-review' && <AIReviewArchitecture lang={lang} />}
   {portfolio && codeExamples[p.id] && <CodeExample lang={lang} example={codeExamples[p.id]} />}
   {p.link && <a class="text-link" href={p.link} target="_blank" rel="noreferrer">{t('ui.blog')} ↗</a>}
 </article>
+
+<style>
+  .evidence {
+    margin: 16px 0;
+  }
+  .evidence img {
+    display: block;
+  }
+  .evidence figcaption {
+    max-width: 52ch;
+    font-size: 13px;
+  }
+  .evidence figcaption p {
+    margin-top: 4px;
+    color: var(--muted);
+  }
+  .live-evidence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .live-evidence img {
+    width: 116px;
+    height: auto;
+    border-radius: 6px;
+  }
+  .voiceover-crop {
+    position: relative;
+    max-width: 720px;
+    aspect-ratio: 1850 / 665;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .voiceover-crop img {
+    position: absolute;
+    left: -9%;
+    bottom: -5%;
+    width: 163.46%;
+    max-width: none;
+    height: auto;
+  }
+  .voiceover-evidence figcaption {
+    margin-top: 8px;
+  }
+  .accessibility-check {
+    margin-top: 24px;
+    padding: 4px 16px;
+    border-inline-start: 3px solid var(--blue);
+  }
+  .accessibility-check ol {
+    margin-block: 8px 12px;
+    padding-inline-start: 1.5em;
+  }
+  .accessibility-check li + li {
+    margin-top: 6px;
+  }
+  .accessibility-check kbd {
+    padding: 1px 5px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+</style>
