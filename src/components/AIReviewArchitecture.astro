@@ -1,5 +1,7 @@
 ---
 import '../styles/ai-review.css';
+import { Image } from 'astro:assets';
+import workflowScreenshot from '../assets/n8n-review-workflow.webp';
 import { translator, type Language, type MessageKey } from '../lib/i18n';
 interface Props { lang: Language; }
 const { lang } = Astro.props;
@@ -12,6 +14,29 @@ const steps = ['GitLab MR', t('ai.flow.diff'), 'Claude', t('ai.flow.json'), t('a
     <ol class="review-steps">{steps.map((step, index) => <li><span class="review-node-icon" aria-hidden="true">{['↳', '±', '✳', '{}', '↗'][index]}</span><span>{step}</span></li>)}</ol>
     <div class="review-outputs"><span class="review-fallback">{t('ai.flow.fallback')}</span><span>Slack</span><span>Google Sheets</span></div>
   </div>
+  <figure class="workflow-evidence">
+    <Image src={workflowScreenshot} alt={lang === 'ko' ? '리뷰 응답을 가공한 뒤 GitLab 댓글 게시와 Slack 알림으로 분기하는 n8n 편집 화면' : 'レビュー応答の加工後、GitLabへのコメント投稿とSlack通知に分岐するn8nの編集画面'} />
+    <figcaption>{lang === 'ko' ? '실제 n8n 워크플로 일부. 리뷰 응답을 가공한 뒤 GitLab 댓글을 등록하고, 처리 상태에 따라 Slack 알림을 보냅니다.' : '実際のn8nワークフローの一部。レビュー応答を加工してGitLabにコメントを投稿し、処理状況に応じてSlackへ通知します。'}</figcaption>
+  </figure>
   <div class="review-decisions">{['input', 'guide', 'delivery'].map(id => <section><h4>{t(`ai.${id}.title` as MessageKey)}</h4><p>{t(`ai.${id}.body` as MessageKey)}</p></section>)}</div>
   <p class="review-infrastructure">{t('ai.infrastructure')}</p>
 </section>
+
+<style>
+  .workflow-evidence {
+    margin: 16px 0;
+    max-width: 750px;
+  }
+  .workflow-evidence img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .workflow-evidence figcaption {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>
