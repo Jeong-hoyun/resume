@@ -24,8 +24,8 @@ const implementationDetail = portfolio && Object.hasOwn(messages, detailKey)
   <div class="detail-grid">
     {(['problem', 'implementation', 'result', ...(portfolio ? ['reflection'] : [])] as const).map(section => <section><h3>{t(`ui.${section}` as MessageKey)}</h3>{section === 'reflection' ? (
       <div class="reflection-copy">
-        {text(section).split('\n').map((paragraph, index) => (
-          <p>{index === 1 && <strong>{lang === 'ko' ? '다음 과제' : '次の取り組み'} </strong>}{paragraph}</p>
+        {text(section).split('\n').map(paragraph => (
+          <p>{paragraph}</p>
         ))}
       </div>
     ) : <p>{text(section)}</p>}{section === 'result' && p.id === 'engagekit' && <p class="result-line">{t('engagekit.metric', { percent: facts.projects.engagekit.averageWatchTimeIncreasePercent })}</p>}</section>)}
@@ -82,9 +82,6 @@ const implementationDetail = portfolio && Object.hasOwn(messages, detailKey)
 <style>
   .reflection-copy p + p {
     margin-top: 8px;
-  }
-  .reflection-copy strong {
-    color: var(--ink);
   }
   .evidence {
     margin: 16px 0;
